@@ -3,15 +3,17 @@ import java.awt.event.*;
 import java.util.*;
 
 public class Tank {
-	public static  int speedX = 6, speedY =6; 
+	public static int speedX = 6, speedY =6;
 	public static int count = 0;
-	public static final int width = 35, length = 35;
+	public static final int WIDTH = 35;
+	public static final int LENGHT = 35;
 	private Direction direction = Direction.STOP;
-	private Direction Kdirection = Direction.U; 
+	private Direction myDirection = Direction.U;
 	TankClient tc;
 	private int player=0;
 	private boolean good;
-	private int x, y;
+	private int x;
+	private int y;
 	private int oldX, oldY;
 	private boolean live = true;
 	private int life = 200;
@@ -19,7 +21,10 @@ public class Tank {
 	private static Random r = new Random();
 	private int step = r.nextInt(10)+5 ; 
 
-	private boolean bL = false, bU = false, bR = false, bD = false;
+	private boolean bL = false;
+	private boolean bU = false;
+	private boolean bR = false;
+	private boolean bD = false;
 	
 
 	private static Toolkit tk = Toolkit.getDefaultToolkit();
@@ -64,43 +69,12 @@ public class Tank {
 			}
 			return;
 		}
-		//if (good)
-			//new DrawBloodbBar().draw(g); 
-		switch (Kdirection) {
-							
-		case D:
-			if(player==1){	g.drawImage(tankImags[4], x, y, null);
-			}
-			else if(tc.Player2&&player==2){
-				g.drawImage(tankImags[8], x, y, null);
-			}else{
-			g.drawImage(tankImags[0], x, y, null);}
-			break;
 
-		case U:
-			if(player==1){	g.drawImage(tankImags[5], x, y, null);
-			}else if(tc.Player2&&player==2){
-				g.drawImage(tankImags[9], x, y, null);
-			}else{
-			g.drawImage(tankImags[1], x, y, null);}
-			break;
-		case L:if(player==1){	g.drawImage(tankImags[6], x, y, null);
-		}else if(tc.Player2&&player==2){
-			g.drawImage(tankImags[10], x, y, null);
-		}else{
-			g.drawImage(tankImags[2], x, y, null);}
-			break;
+		int imageIndex = 4 * (myDirection.ordinal()) + (player == 2 && tc.Player2 ? 4 : 0);
 
-		case R:if(player==1){	g.drawImage(tankImags[7], x, y, null);
-		}else if(tc.Player2&&player==2){
-			g.drawImage(tankImags[11], x, y, null);
-		}else{
-			g.drawImage(tankImags[3], x, y, null);}
-			break;
+		g.drawImage(tankImags[imageIndex], x, y, null);
 
-		}
-
-		move();   
+		move();
 	}
 
 	void move() {
@@ -126,17 +100,17 @@ public class Tank {
 		}
 
 		if (this.direction != Direction.STOP) {
-			this.Kdirection = this.direction;
+			this.myDirection = this.direction;
 		}
 
 		if (x < 0)
 			x = 0;
 		if (y < 40)     
 			y = 40;
-		if (x + Tank.width > TankClient.Fram_width)  
-			x = TankClient.Fram_width - Tank.width;
-		if (y + Tank.length > TankClient.Fram_length)
-			y = TankClient.Fram_length - Tank.length;
+		if (x + Tank.WIDTH > TankClient.Fram_width)
+			x = TankClient.Fram_width - Tank.WIDTH;
+		if (y + Tank.LENGHT > TankClient.Fram_length)
+			y = TankClient.Fram_length - Tank.LENGHT;
 
 		if (!good) {
 			Direction[] directons = Direction.values();
@@ -172,7 +146,8 @@ public class Tank {
 		}
 	}
 	public boolean playertankaround(){
-		int rx=x-15,ry=y-15;
+		int rx=x-15;
+		int ry=y-15;
 		if((x-15)<0) rx=0;
 		if((y-15)<0)ry=0;
 		Rectangle a=new Rectangle(rx, ry,60,60);
@@ -197,7 +172,7 @@ public class Tank {
 		else if(tempx>600&&tempy>300&&tempy<715) return 3;
 	return 1;
 	}
-	public int getdirect(int a,int b){
+	public int getdirect(int b){
 		if(b==13){
 			
 		}
@@ -353,16 +328,16 @@ public class Tank {
 	public Bullets fire() { 
 		if (!live)
 			return null;
-		int x = this.x + Tank.width / 2 - Bullets.width / 2; 
-		int y = this.y + Tank.length / 2 - Bullets.length / 2;
-		Bullets m = new Bullets(x, y + 2, good, Kdirection, this.tc); 
+		int X = this.x + Tank.WIDTH / 2 - Bullets.width / 2;
+		int Y = this.y + Tank.LENGHT / 2 - Bullets.length / 2;
+		Bullets m = new Bullets(X, Y + 2, good, myDirection, this.tc);
 		tc.bullets.add(m);                                                
 		return m;
 	}
 
 
 	public Rectangle getRect() {
-		return new Rectangle(x, y, width, length);
+		return new Rectangle(x, y, WIDTH, LENGHT);
 	}
 
 	public boolean isLive() {
@@ -437,8 +412,8 @@ public class Tank {
 		public void draw(Graphics g) {
 			Color c = g.getColor();
 			g.setColor(Color.RED);
-			g.drawRect(375, 585, width, 10);
-			int w = width * life / 200;
+			g.drawRect(375, 585, WIDTH, 10);
+			int w = WIDTH * life / 200;
 			g.fillRect(375, 585, w, 10);
 			g.setColor(c);
 		}
