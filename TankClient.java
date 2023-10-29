@@ -14,7 +14,11 @@ public class TankClient extends Frame implements ActionListener {
 	public static final int Fram_length = 600;
 	public static boolean printable = true;
 	MenuBar jmb = null;
-	Menu jm1 = null, jm2 = null, jm3 = null, jm4 = null,jm5=null;
+	Menu jm1 = null;
+	Menu jm2 = null;
+	Menu jm3 = null;
+	Menu jm4 = null;
+	Menu jm5 = null;
 	MenuItem jmi1 = null, jmi2 = null, jmi3 = null, jmi4 = null, jmi5 = null,
 			jmi6 = null, jmi7 = null, jmi8 = null, jmi9 = null,jmi10=null,jmi11=null;
 	Image screenImage = null;
@@ -33,6 +37,7 @@ public class TankClient extends Frame implements ActionListener {
 	List<CommonWall> homeWall = new ArrayList<CommonWall>();
 	List<CommonWall> otherWall = new ArrayList<CommonWall>();
 	List<MetalWall> metalWall = new ArrayList<MetalWall>();
+	private static final String TIMES_NEW_ROMAN = "Times New Roman";
 
 	public void update(Graphics g) {
 
@@ -53,13 +58,13 @@ public class TankClient extends Frame implements ActionListener {
 		g.setColor(Color.green); 
 
 		Font f1 = g.getFont();
-		g.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		g.setFont(new Font(TIMES_NEW_ROMAN, Font.BOLD, 20));
 		if(!Player2)g.drawString("Tanks left in the field: ", 200, 70);
 		else g.drawString("Tanks left in the field: ", 100, 70);
-		g.setFont(new Font("Times New Roman", Font.ITALIC, 30));
+		g.setFont(new Font(TIMES_NEW_ROMAN, Font.ITALIC, 30));
 		if(!Player2)g.drawString("" + tanks.size(), 400, 70);
 		else g.drawString("" + tanks.size(), 300, 70);
-		g.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		g.setFont(new Font(TIMES_NEW_ROMAN, Font.BOLD, 20));
 		if(!Player2)g.drawString("Health: ", 580, 70);
 		else g.drawString("Health: ", 380, 70);
 		g.setFont(new Font("Times New Roman", Font.ITALIC, 30));
@@ -69,7 +74,7 @@ public class TankClient extends Frame implements ActionListener {
 		if (!Player2){
 			if (tanks.size() == 0 && home.isLive() && homeTank.isLive()&&lose==false) {
 			Font f = g.getFont();
-			g.setFont(new Font("Times New Roman", Font.BOLD, 60)); 
+			g.setFont(new Font(TIMES_NEW_ROMAN, Font.BOLD, 60));
 			this.otherWall.clear();
 			g.drawString("Congratulations! ", 200, 300);
 			g.setFont(f);
@@ -78,7 +83,7 @@ public class TankClient extends Frame implements ActionListener {
 
 		if (homeTank.isLive() == false&&win==false) {
 			Font f = g.getFont();
-			g.setFont(new Font("Times New Roman", Font.BOLD, 40));
+			g.setFont(new Font(TIMES_NEW_ROMAN, Font.BOLD, 40));
 			tanks.clear();
 			bullets.clear();
 			g.drawString("Sorry. You lose!", 200, 300);
@@ -87,7 +92,7 @@ public class TankClient extends Frame implements ActionListener {
 		}}else{
 			if (tanks.size() == 0 && home.isLive() && (homeTank.isLive()||homeTank2.isLive())&&lose==false) {
 				Font f = g.getFont();
-				g.setFont(new Font("Times New Roman", Font.BOLD, 60));
+				g.setFont(new Font(TIMES_NEW_ROMAN, Font.BOLD, 60));
 				this.otherWall.clear();
 				g.drawString("Congratulations! ", 200, 300);
 				g.setFont(f);
@@ -96,19 +101,17 @@ public class TankClient extends Frame implements ActionListener {
 
 			if (homeTank.isLive() == false&&homeTank2.isLive()==false&&win==false) {
 				Font f = g.getFont();
-				g.setFont(new Font("Times New Roman", Font.BOLD, 40));
+				g.setFont(new Font(TIMES_NEW_ROMAN, Font.BOLD, 40));
 				tanks.clear();
 				bullets.clear();
 				g.drawString("Sorry. You lose!", 200, 300);
-				System.out.println("2");
 				g.setFont(f);
 				lose=true;
 			}
 		}
 		g.setColor(c);
 
-		for (int i = 0; i < theRiver.size(); i++) {
-			River r = theRiver.get(i);
+		for (River r : theRiver) {
 			r.draw(g);
 		}
 
@@ -135,13 +138,11 @@ public class TankClient extends Frame implements ActionListener {
 				Bullets bts=bullets.get(j);
 				m.hitBullet(bts);
 			}
-			for (int j = 0; j < metalWall.size(); j++) { 
-				MetalWall mw = metalWall.get(j);
+			for (MetalWall mw : metalWall) {
 				m.hitWall(mw);
 			}
 
-			for (int j = 0; j < otherWall.size(); j++) {
-				CommonWall w = otherWall.get(j);
+			for (CommonWall w : otherWall) {
 				m.hitWall(w);
 			}
 
@@ -234,7 +235,6 @@ public class TankClient extends Frame implements ActionListener {
 	}
 
 	public TankClient() {
-		// printable = false;
 		
 		jmb = new MenuBar();
 		jm1 = new Menu("Game");
@@ -242,10 +242,10 @@ public class TankClient extends Frame implements ActionListener {
 		jm3 = new Menu("Help");
 		jm4 = new Menu("Level");
 		jm5 = new Menu("Addition");
-		jm1.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		jm2.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		jm3.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		jm4.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		jm1.setFont(new Font(TIMES_NEW_ROMAN, Font.BOLD, 15));
+		jm2.setFont(new Font(TIMES_NEW_ROMAN, Font.BOLD, 15));
+		jm3.setFont(new Font(TIMES_NEW_ROMAN, Font.BOLD, 15));
+		jm4.setFont(new Font(TIMES_NEW_ROMAN, Font.BOLD, 15));
 
 		jmi1 = new MenuItem("New Game");
 		jmi2 = new MenuItem("Exit");
@@ -258,10 +258,10 @@ public class TankClient extends Frame implements ActionListener {
 		jmi9 = new MenuItem("Level4");
 		jmi10=new MenuItem("Add Player 2");
 		jmi11= new MenuItem("Join other's game");
-		jmi1.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		jmi2.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		jmi3.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		jmi4.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		jmi1.setFont(new Font(TIMES_NEW_ROMAN, Font.BOLD, 15));
+		jmi2.setFont(new Font(TIMES_NEW_ROMAN, Font.BOLD, 15));
+		jmi3.setFont(new Font(TIMES_NEW_ROMAN, Font.BOLD, 15));
+		jmi4.setFont(new Font(TIMES_NEW_ROMAN, Font.BOLD, 15));
 		jmi5.setFont(new Font("Times New Roman", Font.BOLD, 15));
 
 		jm1.add(jmi1);
@@ -437,13 +437,6 @@ public class TankClient extends Frame implements ActionListener {
 
 		} else if (e.getActionCommand().endsWith("Stop")) {
 			printable = false;
-			// try {
-			// Thread.sleep(10000);
-			//
-			// } catch (InterruptedException e1) {
-			// // TODO Auto-generated catch block
-			// e1.printStackTrace();
-			// }
 		} else if (e.getActionCommand().equals("Continue")) {
 
 			if (!printable) {
